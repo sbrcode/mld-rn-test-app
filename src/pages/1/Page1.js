@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import { Button } from 'react-native-paper';
 import UserContext from '../../contexts/UserContext';
 import RoutesNames from '../../navigation/RoutesNames';
@@ -12,12 +12,17 @@ export default function Page1({ navigation }) {
   const { logout } = useContext(UserContext);
 
   const [data, setData] = useState([]);
-
+  
   useEffect(() => {
     Api.get()
       .then((json) => setData(json.playlists.items))
+      .catch((error) => {console.error(error)})
   }, []);
 
+  handlePress = (item, index) => {
+    Alert.alert(item.name, item.tracks.href);
+  }
+  
   return (
     <View style={[Alignments.fillColMain]}>
       <FlatList
@@ -25,7 +30,7 @@ export default function Page1({ navigation }) {
         keyExtractor={({ id }) => id}
         numColumns={ 2 }
         renderItem={({ item, index }) => (
-        <TouchableOpacity onPress={() => navigation.navigate(RoutesNames.Page2)}>
+        <TouchableOpacity onPress={() => handlePress(item, index)}>
           <Image 
             source={{ uri: item.images[0].url }}
             style={{ width:179, height:179 }}
