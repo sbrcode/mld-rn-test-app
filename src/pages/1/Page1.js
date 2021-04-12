@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 import UserContext from '../../contexts/UserContext';
 import RoutesNames from '../../navigation/RoutesNames';
@@ -24,13 +24,13 @@ export default function Page1({ navigation }) {
         data={data}
         keyExtractor={({ id }) => id}
         numColumns={ 2 }
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
+        <TouchableOpacity onPress={() => navigation.navigate(RoutesNames.Page2)}>
           <Image 
-            // mode={'contained'}
-            // onPress={() => navigation.navigate(RoutesNames.Page4)}
             source={{ uri: item.images[0].url }}
             style={{ width:179, height:179 }}
           />
+        </TouchableOpacity>
         )}
       />
       <Text style={Fonts.title}>Page1</Text>
